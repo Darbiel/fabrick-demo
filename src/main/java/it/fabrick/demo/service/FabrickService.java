@@ -31,14 +31,20 @@ public class FabrickService {
     @Value("${base.url}")
     String baseUrl;
 
+    @Value("${api.key}")
+    private String apiKey;
+
+    @Value("${auth.schema}")
+    private String authSchema;
+
 
     public AccountBalanceResponse getCashAccountBalance(String accountId){
         Map<String, String> pathParams = new HashMap<>();
         pathParams.put("accountId", accountId);
 
         MultiValueMap<String, String> headers = new HttpHeaders();
-        headers.add("Auth-Schema", "S2S");
-        headers.add("Api-Key", "FXOVVXXHVCPVPBZXIJOBGUGSKHDNFRRQJP");
+        headers.add("Auth-Schema", authSchema);
+        headers.add("Api-Key", apiKey);
 
         WebClientOption webClientOption = new WebClientOption<>()
                 .method(HttpMethod.GET)
@@ -62,8 +68,8 @@ public class FabrickService {
         pathParams.put("accountId", accountId);
 
         MultiValueMap<String, String> headers = new HttpHeaders();
-        headers.add("Auth-Schema", "S2S");
-        headers.add("Api-Key", "FXOVVXXHVCPVPBZXIJOBGUGSKHDNFRRQJP");
+        headers.add("Auth-Schema", authSchema);
+        headers.add("Api-Key", apiKey);
 
         MultiValueMap<String, String> queryParam = new LinkedMultiValueMap<>();
         queryParam.add("fromAccountingDate",fromAccountingDate);
