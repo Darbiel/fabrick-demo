@@ -12,9 +12,13 @@ public class GenericRestClient {
     }
 
     private Object withBody(WebClientOption options) {
-        return WebClient.builder().build()
+        return WebClient.create(options.getBaseUrl())
                 .method(options.getMethod())
-                .uri(options.getUri())
+                .uri( uriBuilder -> uriBuilder
+                        .path(options.getUri())
+                        .queryParams(options.getQueryParams())
+                        .build(options.getPathParams()))
+                .headers(headers -> headers.addAll(options.getHeaders()))
                 .body(BodyInserters.fromValue(options.getBody()))
                 .retrieve()
                 .bodyToMono(options.getClazz()).block();
